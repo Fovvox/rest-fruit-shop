@@ -5,8 +5,8 @@ import com.fowox.restfruitshop.api.v1.model.CustomerDTO;
 import com.fowox.restfruitshop.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -21,9 +21,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        ArrayList<CustomerDTO> result = new ArrayList<>();
-        customerRepository.findAll().forEach(customer -> result.add(customerMapper.customerToCustomerDTO(customer)));
-        return result;
+        return customerRepository.findAll().stream().map(customer -> {
+            CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
+            customerDTO.setCustomerUrl("/api/v1/customers/" + customerDTO.getId());
+            return customerDTO;
+        }).collect(Collectors.toList());
     }
 
     @Override
