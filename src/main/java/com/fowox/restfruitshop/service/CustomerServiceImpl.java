@@ -30,6 +30,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO getCustomerById(Long id) {
-        return customerMapper.customerToCustomerDTO(customerRepository.getById(id));
+        return customerMapper.customerToCustomerDTO(
+                customerRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Customer not found")));
     }
 }
