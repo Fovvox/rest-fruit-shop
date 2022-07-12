@@ -2,6 +2,7 @@ package com.fowox.restfruitshop.service;
 
 import com.fowox.restfruitshop.api.v1.mapper.CustomerMapper;
 import com.fowox.restfruitshop.api.v1.model.CustomerDTO;
+import com.fowox.restfruitshop.domain.Customer;
 import com.fowox.restfruitshop.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+    public static final String CUSTOMERS_URL = "/api/v1/customers/";
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
@@ -23,7 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getAllCustomers() {
         return customerRepository.findAll().stream().map(customer -> {
             CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-            customerDTO.setCustomerUrl("/api/v1/customers/" + customerDTO.getId());
+            customerDTO.setCustomerUrl(CUSTOMERS_URL + customerDTO.getId());
             return customerDTO;
         }).collect(Collectors.toList());
     }
@@ -33,5 +35,17 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.customerToCustomerDTO(
                 customerRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("Customer not found")));
+    }
+
+    @Override
+    public CustomerDTO createNewCustomer(CustomerDTO customerDTO) {
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+
+        Customer savedCustomer = customerRepository.save(customer);
+
+        CustomerDTO savedDTO = customerMapper.customerToCustomerDTO(savedCustomer);
+        savedDTO.setCustomerUrl(CUSTOMERS_URL + savedDTO.getId());
+
+        return savedDTO;
     }
 }

@@ -12,4 +12,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Override
     Optional<Customer> findById(Long id);
+
+    @Override
+    <S extends Customer> S save(S entity);
 }
