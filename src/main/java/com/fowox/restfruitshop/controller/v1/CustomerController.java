@@ -30,7 +30,14 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<CustomerDTO> createNewCustomer(@RequestBody CustomerDTO customerDTO) {
+
         customerDTO = customerService.createNewCustomer(customerDTO);
+        return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable String id, @RequestBody CustomerDTO customerDTO) {
+        customerDTO = customerService.updateCustomer(customerDTO, Long.parseLong(id));
         return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
     }
 }
