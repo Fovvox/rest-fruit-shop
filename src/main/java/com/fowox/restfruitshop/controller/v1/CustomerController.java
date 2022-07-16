@@ -40,4 +40,10 @@ public class CustomerController {
         customerDTO = customerService.updateCustomer(customerDTO, Long.parseLong(id));
         return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
     }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable String id, @RequestBody CustomerDTO customerDTO) {
+        customerDTO = customerService.patchCustomer(customerDTO, Long.parseLong(id));
+        return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
+    }
 }
