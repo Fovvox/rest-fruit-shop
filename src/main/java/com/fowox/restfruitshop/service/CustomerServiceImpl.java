@@ -54,14 +54,19 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO patchCustomer(CustomerDTO customerDTO, Long id) {
         Customer customer = customerRepository.findById(id).orElseThrow(RuntimeException::new); //todo custom exceptions
         customerDTO.setId(customer.getId());
-        if (customerDTO.getLastName() != null) {
+        if (customerDTO.getLastName() == null) {
             customerDTO.setLastName(customer.getLastName());
         }
-        if (customerDTO.getFirstName() != null) {
+        if (customerDTO.getFirstName() == null) {
             customerDTO.setFirstName(customer.getFirstName());
         }
         Customer savedCustomer = saveDTO(customerDTO);
         return customerToDTO(savedCustomer);
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        customerRepository.deleteById(id);
     }
 
     private CustomerDTO customerToDTO(Customer customer) {

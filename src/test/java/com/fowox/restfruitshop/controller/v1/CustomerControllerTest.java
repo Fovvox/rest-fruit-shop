@@ -160,4 +160,5 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.lastName", equalTo("Flintstone")))
                 .andExpect(jsonPath("$.customerUrl", equalTo("/api/v1/customers/1")));
     }
+
 }
