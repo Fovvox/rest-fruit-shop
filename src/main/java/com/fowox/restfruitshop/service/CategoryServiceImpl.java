@@ -29,6 +29,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getCategoryByName(String name) {
-        return categoryMapper.categoryToCategoryDTO(categoryRepository.findCategoryByName(name));
+        return categoryMapper.categoryToCategoryDTO(categoryRepository.findCategoryByName(name).orElseThrow(ResourceNotFoundException::new));
     }
 }

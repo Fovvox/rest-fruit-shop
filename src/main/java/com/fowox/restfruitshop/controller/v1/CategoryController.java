@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/v1/categories/")
+@RequestMapping(CategoryController.BASE_URL)
 public class CategoryController {
+
+    public static final String BASE_URL = "/api/v1/categories/";
     private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
@@ -21,7 +23,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<CategoryListDTO> getAllCategories() {
-         return new ResponseEntity<>(new CategoryListDTO(categoryService.getAllCategories()), HttpStatus.OK);
+        return new ResponseEntity<>(new CategoryListDTO(categoryService.getAllCategories()), HttpStatus.OK);
     }
 
     @GetMapping("{name}")

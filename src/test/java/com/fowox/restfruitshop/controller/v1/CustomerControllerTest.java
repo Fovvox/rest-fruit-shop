@@ -2,6 +2,7 @@ package com.fowox.restfruitshop.controller.v1;
 
 import com.fowox.restfruitshop.api.v1.model.CustomerDTO;
 import com.fowox.restfruitshop.service.CustomerService;
+import com.fowox.restfruitshop.service.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,9 @@ class CustomerControllerTest {
     void setUp() {
         mocks = MockitoAnnotations.openMocks(this);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @AfterEach
@@ -88,6 +91,15 @@ class CustomerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME)));
+    }
+
+    @Test
+    void testNotFoundByID() throws Exception {
+        when(customerService.getCustomerById(anyLong())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(CustomerController.BASE_URL + "/0")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test

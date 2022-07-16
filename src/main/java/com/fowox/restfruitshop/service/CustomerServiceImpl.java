@@ -2,6 +2,7 @@ package com.fowox.restfruitshop.service;
 
 import com.fowox.restfruitshop.api.v1.mapper.CustomerMapper;
 import com.fowox.restfruitshop.api.v1.model.CustomerDTO;
+import com.fowox.restfruitshop.controller.v1.CustomerController;
 import com.fowox.restfruitshop.domain.Customer;
 import com.fowox.restfruitshop.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-    public static final String CUSTOMERS_URL = "/api/v1/customers/";
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
 
@@ -23,18 +23,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        return customerRepository.findAll().stream().map(customer -> {
-            CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-            customerDTO.setCustomerUrl(CUSTOMERS_URL + customerDTO.getId());
-            return customerDTO;
-        }).collect(Collectors.toList());
+        return customerRepository.findAll().stream().map(this::customerToDTO).collect(Collectors.toList());
     }
 
     @Override
     public CustomerDTO getCustomerById(Long id) {
         return customerMapper.customerToCustomerDTO(
                 customerRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Customer not found")));
+                        .orElseThrow(ResourceNotFoundException::new));
     }
 
     @Override
@@ -52,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO patchCustomer(CustomerDTO customerDTO, Long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(RuntimeException::new); //todo custom exceptions
+        Customer customer = customerRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         customerDTO.setId(customer.getId());
         if (customerDTO.getLastName() == null) {
             customerDTO.setLastName(customer.getLastName());
@@ -71,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private CustomerDTO customerToDTO(Customer customer) {
         CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-        customerDTO.setCustomerUrl(CUSTOMERS_URL + customerDTO.getId());
+        customerDTO.setCustomerUrl(CustomerController.BASE_URL + customerDTO.getId());
 
         return customerDTO;
     }
