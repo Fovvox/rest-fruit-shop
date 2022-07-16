@@ -1,4 +1,4 @@
-package com.fowox.restfruitshop.controller.v1;
+package com.fowox.restfruitshop.controller;
 
 import com.fowox.restfruitshop.service.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -15,5 +15,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({ResourceNotFoundException.class})
     public ResponseEntity<Object> handleNotFoundException(Exception exception, WebRequest request) {
         return new ResponseEntity<>("Resource not found", new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({NumberFormatException.class})
+    public ResponseEntity<Object> handleNumberFormatException(Exception exception, WebRequest request) {
+        return new ResponseEntity<>("Impossible id", new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 }

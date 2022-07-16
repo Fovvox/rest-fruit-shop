@@ -1,6 +1,7 @@
 package com.fowox.restfruitshop.controller.v1;
 
 import com.fowox.restfruitshop.api.v1.model.CustomerDTO;
+import com.fowox.restfruitshop.controller.RestResponseEntityExceptionHandler;
 import com.fowox.restfruitshop.service.CustomerService;
 import com.fowox.restfruitshop.service.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
@@ -103,7 +104,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    public void createNewCustomer() throws Exception {
+    void createNewCustomer() throws Exception {
         //given
         CustomerDTO customer = new CustomerDTO();
         customer.setFirstName("Fred");
@@ -126,7 +127,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    public void testUpdateCustomer() throws Exception {
+    void testUpdateCustomer() throws Exception {
         //given
         CustomerDTO customer = new CustomerDTO();
         customer.setFirstName("Fred");
@@ -150,7 +151,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    public void testPatchCustomer() throws Exception {
+    void testPatchCustomer() throws Exception {
         //given
         CustomerDTO customer = new CustomerDTO();
         customer.setFirstName("Fred");

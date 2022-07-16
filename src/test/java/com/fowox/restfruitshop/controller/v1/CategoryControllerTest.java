@@ -1,6 +1,7 @@
 package com.fowox.restfruitshop.controller.v1;
 
 import com.fowox.restfruitshop.api.v1.model.CategoryDTO;
+import com.fowox.restfruitshop.controller.RestResponseEntityExceptionHandler;
 import com.fowox.restfruitshop.service.CategoryService;
 import com.fowox.restfruitshop.service.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
