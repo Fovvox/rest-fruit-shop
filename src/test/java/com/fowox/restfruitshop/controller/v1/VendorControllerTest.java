@@ -117,7 +117,7 @@ public class VendorControllerTest {
                         .content(asJsonString(vendor)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
-                .andExpect(jsonPath("$.vendorUrl", equalTo("/api/v1/vendors/1")));
+                .andExpect(jsonPath("$.vendor_url", equalTo("/api/v1/vendors/1")));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class VendorControllerTest {
                         .content(asJsonString(vendor)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
-                .andExpect(jsonPath("$.vendorUrl", equalTo("/api/v1/vendors/1")));
+                .andExpect(jsonPath("$.vendor_url", equalTo("/api/v1/vendors/1")));
     }
 
     @Test
@@ -159,6 +159,6 @@ public class VendorControllerTest {
                         .content(asJsonString(vendor)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
-                .andExpect(jsonPath("$.vendorUrl", equalTo("/api/v1/vendors/1")));
+                .andExpect(jsonPath("$.vendor_url", equalTo("/api/v1/vendors/1")));
     }
 }
