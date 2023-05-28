@@ -2,8 +2,6 @@ package com.fowox.restfruitshop.api.v1.mapper;
 
 import com.fowox.restfruitshop.api.v1.model.VendorDTO;
 import com.fowox.restfruitshop.domain.Vendor;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
